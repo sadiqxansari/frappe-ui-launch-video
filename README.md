@@ -11,6 +11,8 @@ products, on one continuous camera. An earlier cut lives on as
 
 ## Setup
 
+Needs Node 22+, ffmpeg, and Python 3.11+. Coding agents: see `AGENTS.md`.
+
 ```bash
 npm install && (cd stage && npm install)
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
