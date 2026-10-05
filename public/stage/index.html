@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Frappe UI stage</title>
+    <script>
+      // A virtual clock for everything that animates on requestAnimationFrame
+      // (echarts, Vue transitions). Time only moves when the film says so, in
+      // runtime.ts, so a chart's own motion is a pure function of the frame.
+      // Runs before any module so zrender captures these, not the real ones.
+      ;(() => {
+        // HyperFrames freezes rAF on every page it serves; the real one waits for paint
+        const hfTime = window.__HF_VIRTUAL_TIME__
+        const realRAF = hfTime?.originalRequestAnimationFrame ?? window.requestAnimationFrame.bind(window)
+        const RealDate = Date
+        const base = RealDate.UTC(2026, 8, 30, 10)
+        let t = 0
+        let id = 0
+        let q = new Map()
+        window.requestAnimationFrame = (cb) => (q.set(++id, cb), id)
+        window.cancelAnimationFrame = (i) => q.delete(i)
+        // defineProperty, not assignment: HyperFrames defines performance.now
+        // non-writable, and an assignment would silently leave its frozen one
+        Object.defineProperty(performance, 'now', { configurable: true, value: () => t })
+        class VDate extends RealDate {
+          constructor(...a) {
+            a.length ? super(...a) : super(base + t)
+          }
+          static now() {
+            return base + t
+          }
+        }
+        window.Date = VDate
+        window.__clock = {
+          realRAF,
+          get now() {
+            return t
+          },
+          advance(ms) {
+            t += Math.max(0, ms)
+          },
+          flush() {
+            const cbs = [...q.values()]
+            q = new Map()
+            for (const cb of cbs) {
+              try {
+                cb(t)
+              } catch (e) {
+                console.error(e)
+              }
+            }
+            return cbs.length
+          },
+        }
+      })()
+    </script>
+    <script type="module" crossorigin src="./assets/index-CJGGuRKd.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-WN4Xjrze.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

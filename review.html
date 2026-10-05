@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Film review</title>
+		<style>
+			html, body, #review { margin: 0; height: 100%; background: #111; color: #ddd; font: 13px/1.3 -apple-system, system-ui, sans-serif; }
+			.app { display: flex; flex-direction: column; height: 100%; }
+			.stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 16px; }
+			.controls { padding: 10px 16px 18px; border-top: 1px solid #262626; background: #161616; }
+			.row { display: flex; align-items: center; gap: 6px; }
+			button { background: #262626; color: #ddd; border: 0; border-radius: 6px; height: 28px; min-width: 32px; padding: 0 8px; font: inherit; cursor: pointer; }
+			button:hover { background: #333; }
+			.frame { display: flex; align-items: center; gap: 4px; margin-left: 8px; font-variant-numeric: tabular-nums; }
+			.frame input { width: 64px; height: 26px; background: #0c0c0c; color: #fff; border: 1px solid #333; border-radius: 6px; padding: 0 6px; font: inherit; }
+			.time, .scene { font-variant-numeric: tabular-nums; color: #999; margin-left: 8px; }
+			.scene { color: #c792ff; }
+			.spacer { flex: 1; }
+			select { background: #262626; color: #ddd; border: 0; border-radius: 6px; height: 28px; padding: 0 6px; font: inherit; }
+			.track { position: relative; margin-top: 12px; padding-bottom: 18px; }
+			.track input { width: 100%; margin: 0; accent-color: #b352ff; }
+			.mark { position: absolute; top: 20px; transform: translateX(-2px); height: 16px; min-width: 0; padding: 0 0 0 5px; background: none; border-left: 1px solid #555; border-radius: 0; color: #777; font-size: 11px; }
+			.mark:hover { color: #fff; background: none; }
+		</style>
+	</head>
+	<body>
+		<div id="review"></div>
+		<script type="module" src="./src/review.tsx"></script>
+	</body>
+</html>
